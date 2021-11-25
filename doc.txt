@@ -1,0 +1,28 @@
+comando para iniciar la aplicacion
+
+    uvicorn main:app --reload
+
+operations es lo mismo que metodos http
+
+8 operations:
+    get
+    post
+    put
+    delete
+
+    operations
+    head
+    patch
+    trace
+
+path parameter -> variable definida dentro de un path {}
+
+query parameters -> parametros opcionales ? y  & 
+
+
+Request  -> comunicacion cliente servidor
+Response -> comunicacion servidor cliente
+
+Request body 
+
+    body  de una peticion http, en formato JSON
