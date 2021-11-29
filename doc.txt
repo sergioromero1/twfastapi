@@ -26,3 +26,7 @@ Response -> comunicacion servidor cliente
 Request body 
 
     body  de una peticion http, en formato JSON
+
+models
+
+    descripcion de una entidad en codigo
