@@ -30,3 +30,22 @@ Request body
 models
 
     descripcion de una entidad en codigo
+
+
+validaciones de query parameters
+
+    max_length
+    min_length
+    regex 
+    ge  - greater or equal than
+    le    less or equal than  
+    gt   greater than
+    lt   less than
+
+    (parametros para documentar mejor los query parameters)
+    title 
+    description 
+
+validaciones de path parameters
+
+    
