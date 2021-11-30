@@ -5,6 +5,7 @@ from pydantic import BaseModel
 #FastApI
 from fastapi import FastAPI
 from fastapi import Body
+from fastapi import Path
 from fastapi import Query
 
 app = FastAPI()
@@ -21,16 +22,38 @@ class Person(BaseModel):
 def home():  # path operation function
     return {"Hello": "World"}
 
-#validaciones: Query parameters
-@app.get("/person/detail")
-def show_person(
-    name: Optional[str] = Query(None, min_length=1, max_length=50),
-    age: str = Query(...) # no es lo ideal. lo ideal es que query parameter sea optional
-    ):
-    return {name:age}
-
 # Request and Response body
 @app.post("/person/new")
 def create_person(person: Person = Body(...)):
     """Los ... en fastapi significa que son obligatorios"""
     return person
+
+#validaciones: Query parameters
+@app.get("/person/detail")
+def show_person(
+    name: Optional[str] = Query(
+        None,
+        min_length=1, 
+        max_length=50,
+        title="Person Name",
+        description="This is the person name. It's between 1 and 50 characters"
+        ),
+    age: str = Query(# no es lo ideal. lo ideal es que query parameter sea optional
+        ...,
+        title="Person Age",
+        description="this is the person age. It's required"
+        ) 
+    ):
+    return {name:age}
+
+#Validaciones: path parameters
+@app.get("/person/detail/{person_id}")
+def show_person(
+    person_id: int = Path(...,
+    gt=0,
+    title="Person id",
+    description="This is the person id. It must be greater than 0"
+    )
+    ):
+    return {person_id: "It exists!"}
+
