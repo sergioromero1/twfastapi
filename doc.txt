@@ -48,4 +48,16 @@ validaciones de query parameters
 
 validaciones de path parameters
 
-    
+tipos de datos exoticos (pydantic)
+
+    enum
+    HtttpUrl
+    FilePath
+    DirectoryPath
+    EmailStr
+    Payment Card Number
+    IPv Any address
+    Negative float
+    Positive float
+    Negative int
+    Positive int
