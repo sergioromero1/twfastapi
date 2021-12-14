@@ -26,7 +26,7 @@ class Location(BaseModel):
     state: str
     country: str
 
-class Person(BaseModel):
+class PersonBase(BaseModel):
     first_name: str = Field(
         ...,
         min_length=1,
@@ -48,6 +48,9 @@ class Person(BaseModel):
     hair_color: Optional[HairColor] = Field(default=None, example="black")
 
     is_married: Optional[bool] = Field(default=None, example=False)
+
+class Person(PersonBase):
+
     password: str = Field(..., min_length=8)
 
     # class Config:
@@ -61,28 +64,8 @@ class Person(BaseModel):
     #         }
     #     }
 
-class PersonOut(BaseModel):
-    first_name: str = Field(
-        ...,
-        min_length=1,
-        max_length=50,
-        example="Sergio"
-        )
-    last_name: str = Field(
-        ...,
-        min_length=1,
-        max_length=50,
-        example="Torres"
-        )
-    age: int = Field(
-        ...,
-        gt=0,
-        le=130,
-        example=25
-        )
-    hair_color: Optional[HairColor] = Field(default=None, example="black")
-
-    is_married: Optional[bool] = Field(default=None, example=False)
+class PersonOut(PersonBase):
+    pass
 
 @app.get("/")  # path operation decorator
 def home():  # path operation function
