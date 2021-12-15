@@ -7,6 +7,7 @@ from pydantic import Field
 
 #FastApI
 from fastapi import FastAPI
+from fastapi import status
 from fastapi import Body, Path, Query
 
 
@@ -67,18 +68,18 @@ class Person(PersonBase):
 class PersonOut(PersonBase):
     pass
 
-@app.get("/")  # path operation decorator
+@app.get("/", status_code=status.HTTP_200_OK)  # path operation decorator
 def home():  # path operation function
     return {"Hello": "World"}
 
 # Request and Response body
-@app.post("/person/new",response_model=PersonOut)
+@app.post("/person/new",response_model=PersonOut,status_code=status.HTTP_201_CREATED)
 def create_person(person: Person = Body(...)):
     """Los ... en fastapi significa que son obligatorios"""
     return person
 
 #validaciones: Query parameters
-@app.get("/person/detail")
+@app.get("/person/detail", status_code=status.HTTP_200_OK)
 def show_person(
     name: Optional[str] = Query(
         None,
@@ -98,7 +99,7 @@ def show_person(
     return {name:age}
 
 #Validaciones: path parameters
-@app.get("/person/detail/{person_id}")
+@app.get("/person/detail/{person_id}", status_code=status.HTTP_200_OK)
 def show_person(
     person_id: int = Path(...,
     gt=0,
@@ -110,8 +111,7 @@ def show_person(
     return {person_id: "It exists!"}
 
 #Validaciones : Request Body
-
-@app.put("/person/{person_id}")
+@app.put("/person/{person_id}", status_code=status.HTTP_200_OK)
 def update_person(
     person_id: int = Path(
         ...,
