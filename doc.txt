@@ -63,3 +63,5 @@ tipos de datos exoticos (pydantic)
     Positive int
 
 header parte de una peticion o respuesta http que contiene datos , como por ejmplo quien la hizo en que fecha se hizo, en que formato está
+
+Files clases --->  File , Upload File
