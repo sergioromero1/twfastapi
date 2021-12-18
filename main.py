@@ -8,7 +8,7 @@ from pydantic import Field
 #FastApI
 from fastapi import FastAPI
 from fastapi import status
-from fastapi import Body, Path, Query
+from fastapi import Body, Path, Form, Query
 
 
 app = FastAPI()
@@ -26,6 +26,9 @@ class Location(BaseModel):
     city: str
     state: str
     country: str
+
+class LoginOut(BaseModel):
+    username: str= Field(...,max_length=20, example="miguel2021")
 
 class PersonBase(BaseModel):
     first_name: str = Field(
@@ -128,3 +131,11 @@ def update_person(
 
     # return results
     return person
+
+@app.post(
+    path="/login",
+    response_model=LoginOut,
+    status_code=status.HTTP_200_OK
+)
+def login(username: str = Form(...), password: str = Form(...)):
+    return LoginOut(username=username)
