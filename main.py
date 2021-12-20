@@ -1,7 +1,7 @@
 #Python
 from enum import Enum
 from typing import Optional
-from fastapi.param_functions import Header
+
 #Pydantic
 from pydantic import BaseModel
 from pydantic import EmailStr
@@ -10,7 +10,7 @@ from pydantic import Field
 #FastApI
 from fastapi import FastAPI
 from fastapi import status
-from fastapi import Body, Cookie, Header, Path, Form, Query
+from fastapi import Body, Cookie, File, Header, Path, Form, Query, UploadFile
 from pydantic.networks import EmailStr
 from starlette.status import HTTP_200_OK
 
@@ -170,3 +170,17 @@ def contact(
     ads: Optional[str] = Cookie(default=None)
    ):
     return user_agent
+
+# Files
+
+@app.post(
+    path="/post-image"
+)
+def post_image(
+    image: UploadFile = File(...)
+    ):
+    return {
+        "Filename": image.filename,
+        "Format": image.content_type,
+        "Size(kb)": round(len(image.file.read())/1024,ndigits=2)
+    }
