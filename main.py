@@ -74,18 +74,27 @@ class Person(PersonBase):
 class PersonOut(PersonBase):
     pass
 
-@app.get("/", status_code=status.HTTP_200_OK)  # path operation decorator
+@app.get("/", status_code=status.HTTP_200_OK,tags=["Home"])  # path operation decorator
 def home():  # path operation function
     return {"Hello": "World"}
 
 # Request and Response body
-@app.post("/person/new",response_model=PersonOut,status_code=status.HTTP_201_CREATED)
+@app.post(
+    path="/person/new",
+    response_model=PersonOut,
+    status_code=status.HTTP_201_CREATED,
+    tags=["Persons"]
+    )
 def create_person(person: Person = Body(...)):
     """Los ... en fastapi significa que son obligatorios"""
     return person
 
 #validaciones: Query parameters
-@app.get("/person/detail", status_code=status.HTTP_200_OK)
+@app.get(
+    path="/person/detail",
+    status_code=status.HTTP_200_OK,
+    tags=["Persons"]
+    )
 def show_person(
     name: Optional[str] = Query(
         None,
@@ -106,7 +115,7 @@ def show_person(
 
 persons = [1,2,3,4,5]
 #Validaciones: path parameters
-@app.get("/person/detail/{person_id}", status_code=status.HTTP_200_OK)
+@app.get("/person/detail/{person_id}", status_code=status.HTTP_200_OK, tags=["Persons"])
 def show_person(
     person_id: int = Path(...,
     gt=0,
@@ -123,7 +132,7 @@ def show_person(
     return {person_id: "It exists!"}
 
 #Validaciones : Request Body
-@app.put("/person/{person_id}", status_code=status.HTTP_200_OK)
+@app.put("/person/{person_id}", status_code=status.HTTP_200_OK,tags=["Persons"])
 def update_person(
     person_id: int = Path(
         ...,
@@ -144,7 +153,8 @@ def update_person(
 @app.post(
     path="/login",
     response_model=LoginOut,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
+    tags=["Persons", "Login"]
 )
 def login(username: str = Form(...), password: str = Form(...)):
     return LoginOut(username=username)
@@ -154,6 +164,7 @@ def login(username: str = Form(...), password: str = Form(...)):
 @app.post(
     path="/contact",
     status_code=status.HTTP_200_OK,
+    tags=["Contact"]
 )
 def contact(
     first_name: str = Form(
@@ -179,7 +190,8 @@ def contact(
 # Files
 
 @app.post(
-    path="/post-image"
+    path="/post-image",
+    tags=["Image"]
 )
 def post_image(
     image: UploadFile = File(...)
