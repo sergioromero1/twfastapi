@@ -10,9 +10,8 @@ from pydantic import Field
 #FastApI
 from fastapi import FastAPI
 from fastapi import status
+from fastapi import HTTPException
 from fastapi import Body, Cookie, File, Header, Path, Form, Query, UploadFile
-from pydantic.networks import EmailStr
-from starlette.status import HTTP_200_OK
 
 
 app = FastAPI()
@@ -105,6 +104,7 @@ def show_person(
     ):
     return {name:age}
 
+persons = [1,2,3,4,5]
 #Validaciones: path parameters
 @app.get("/person/detail/{person_id}", status_code=status.HTTP_200_OK)
 def show_person(
@@ -115,6 +115,11 @@ def show_person(
     example=123
     )
     ):
+    if person_id not in persons:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="This persons doesn't exists!"
+        )
     return {person_id: "It exists!"}
 
 #Validaciones : Request Body
@@ -129,7 +134,7 @@ def update_person(
     ),
     person:  Person = Body(...),
     # location: Location = Body(...)
-):
+    ):
     # results = person.dict()
     # results.update(location.dict())
 
